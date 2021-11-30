@@ -126,7 +126,7 @@ checkBibURLs(xbibFile)
 ```
 
 
-# Finding the &lt;fix&gt;/&lt;fixme&gt; Nodes
+## Finding the &lt;fix&gt;/&lt;fixme&gt; Nodes
 
 ```r
 getFixmes(xmlFile)
