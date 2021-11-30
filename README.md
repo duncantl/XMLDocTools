@@ -40,6 +40,8 @@ You can put the output into the XML file.
 
 
 
+# Analyzing the XML Documents
+
 ## Identifying Dependencies
 
 
