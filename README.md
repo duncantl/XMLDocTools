@@ -126,7 +126,7 @@ checkBibURLs(xbibFile)
 ```
 
 
-# Finding the <fix>/<fixme> Nodes
+# Finding the fix/fixme Nodes
 
 ```r
 getFixmes(xmlFile)
@@ -135,7 +135,7 @@ getFixmes(xmlFile)
 
 ## Words/phrases Needing XML Markup
 
-We should find words or phrases that should have a markup, e.g., R versus <r/> 
+We should find words or phrases that should have a markup, e.g., R versus &lt;r/&gt; 
 so that they 1) are formatted correctly, and 2) more importantly, are added to the index
 appropriately.
 We can do this with 
