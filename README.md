@@ -1,4 +1,4 @@
-#
+# 
 
 This is a collection of all the top-level R files from the 3 (or 4) books I have written or am in
 the processing of writing.  We use an XML/XSL that maps to (La)TeX approach. This is very powerful, but also has some
@@ -36,8 +36,7 @@ we can provide an R list or data.frame to create a Docbook table with
 ```
 dbtable(obj)
 ```
-You can put into the XML file.
-
+You can put the output into the XML file.
 
 
 
@@ -109,7 +108,7 @@ See `checkFunctionNames`, `checkFunctionExists()`, `getDocFunctionDefNames`,  `g
 for functions to check these aspects.
 
 
-# Checking the Chapter and Section Titles
+## Checking the Chapter and Section Titles
 
 We can check the titles, also for empty and duplicate titles, in the document with 
 ```r
