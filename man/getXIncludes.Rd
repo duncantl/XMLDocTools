@@ -1,60 +1,50 @@
 \name{getXIncludes}
 \alias{getXIncludes}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
-}
+\title{Compute all of the active XIncludes of an XML document}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This finds all the xi:include nodes in the XML document
+  that are not inside <ignore> nodes, and
+  gets their href, parse and xpointer attributes.
+  If \code{recursive} is \code{TRUE},
+  the function processes each node in the same manner.
 }
 \usage{
 getXIncludes(file, recursive = TRUE, xpointer = "")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{file}{
-%%     ~~Describe \code{file} here~~
-}
-  \item{recursive}{
-%%     ~~Describe \code{recursive} here~~
-}
-  \item{xpointer}{
-%%     ~~Describe \code{xpointer} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{file}{the name of the XML file, or a parsed document}
+  \item{recursive}{a logical value}
+  \item{xpointer}{the xpointer attribute for this \code{file} which is
+    used to subset the resulting XML document to the target node.
+    This is typically passed only in recursive calls.
+  }
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A data.frame with a row for each xi:include node found
+\item{href}{the value of the \code{href} attribute, i.e., the name of
+  the file/URL to be XInclude'd}
+\item{parse}{the value of the \code{parse} attribute, either \code{""}
+  or \code{"text"}}
+\item{xpointer}{the value of the \code{xpointer} attribute specifying
+  the restriction to the nodes of interest}
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+  XInclude \url{https://www.w3.org/TR/xinclude/}
 }
 \author{
-%%  ~~who you are~~
+Duncan Temple Lang
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\seealso{\code{\link[XML]{xmlParse}}}
 \examples{
+f = system.file("", "A.xml", package = "XMLDocTools")
+a = getXIncludes(f)
+
+# More specific example with use of xpointer.
+f = system.file("", "X.xml", package = "XMLDocTools")
+b = getXIncludes(f)
+# A.xml is not in the result as the xi:include href="A.xml" is not part
+# of the resulting nodes in the xpointer restriction.
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+\keyword{IO}
+\concept{XML}

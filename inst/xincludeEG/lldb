@@ -1,0 +1,16 @@
+xmlXIncludeIncludeNode(ctxt=0x0000000100e202a0, nr=1) at xinclude.c:2189:14
+
+DoProcess
+Recursdoc
+LoadDoc
+LoadNode
+
+xmlXIncludeDoProcess(ctxt=0x0000000100e202a0, doc=0x0000000100e039d0, tree=0x0000000100e126d0) at xinclude.c:2447:6
+xmlXIncludeRecurseDoc(ctxt=0x0000000105b20d30, doc=0x0000000100e039d0, url="B.xml") at xinclude.c:728:2
+xmlXIncludeLoadDoc(ctxt=0x0000000105b20d30, url="B.xml", nr=0) at xinclude.c:1543:5
+xmlXIncludeLoadNode(ctxt=0x0000000105b20d30, nr=0) at xinclude.c:2121:8
+xmlXIncludeDoProcess(ctxt=0x0000000105b20d30, doc=0x0000000105b04e00, tree=0x0000000105b2a350) at xinclude.c:2428:9
+xmlXIncludeProcessTreeFlagsData(tree=0x0000000105b2a350, flags=1024, data=0x0000000000000000) at xinclude.c:2500:11
+xmlXIncludeProcessFlagsData(doc=0x0000000105b04e00, flags=1024, data=0x0000000000000000) at xinclude.c:2529:12
+xmlXIncludeProcessFlags(doc=0x0000000105b04e00, flags=1024) at xinclude.c:2544:12
+RS_XML_ParseTree

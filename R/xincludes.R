@@ -17,9 +17,27 @@ cat(unlist(img), file = "ImageDependencies", sep = "\\\n")
 
 
 getXIncludes =
+    #
+    # xpointer doesn't seem to be used (reassigned before use)
+    # and need to honor the xpointer in an xi:include in the recursive part.
+    #
 function(file, recursive = TRUE, xpointer = "")
 {
     doc = xmlParse(file, xinclude = FALSE)
+    if(!is.na(xpointer) && xpointer != "") {
+        browser()
+        xp = sub("^xpointer\\(([^)]+))$", "\\1", xpointer)
+        nodes = getNodeSet(doc, xp)
+        # Need to remove this from its document and make a completely new document
+        # Otherwise, getNodeSet will find the other nodes in the original document
+        #
+        if(length(nodes) > 1) {
+            doc = newXMLDoc()
+            newXMLNode("dummy", .children = nodes, doc = doc)
+        } else
+            doc = newXMLDoc(node = nodes[[1]])
+    }
+    
     nodes = getNodeSet(doc, "//xi:include", namespaces= c(xi="http://www.w3.org/2003/XInclude"))
     href = sapply(nodes, xmlGetAttr, "href")
     parse = sapply(nodes, xmlGetAttr, "parse", "")
@@ -27,7 +45,9 @@ function(file, recursive = TRUE, xpointer = "")
 
     if(length(href)) 
         href = getRelativeURL(href, file)
+    
     ans = data.frame(href = href, parse = parse, xpointer = xpointer, file = rep(file, length(href)), stringsAsFactors = FALSE)
+    
     if(recursive && length(href) > 0) {
         isParse = (parse == "text")
         tmp = mapply(getXIncludes, href[!isParse], xpointer[!isParse], MoreArgs = list(recursive = TRUE), SIMPLIFY = FALSE)
