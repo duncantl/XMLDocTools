@@ -1,0 +1,11 @@
+Package: XMLDocTools
+Version: 0.1-0
+Title: Tools for validating XML/XSL and resulting LaTeX documents
+Description: A collection of functions that we use for programmatically
+  querying XML content, LaTeX input,  LaTeX output, etc.
+  for validating the content of manuscripts.
+Author: Duncan Temple Lang
+Maintainer: Duncan Temple Lang
+Imports: XML
+Suggests: Sxslt, Aspell
+
