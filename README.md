@@ -1,4 +1,4 @@
-# 
+#  Tools for Analyzing XML, XSL and LaTeX content 
 
 This is a collection of all the top-level R files from the 3 (or 4) books I have written or am in
 the processing of writing.  We use an XML/XSL that maps to (La)TeX approach. This is very powerful, but also has some
@@ -6,8 +6,6 @@ issues.  XSL can be finicky and LaTeX can be very finicky and cryptic.
 
 The XML structure allows us to query the content to find different types of elements of interest.
 (The alternative is regular expressions which are not reliable.)
-
-
 
 
 Having created the LaTeX, we sometimes want to 
@@ -20,13 +18,15 @@ Having created the LaTeX, we sometimes want to
   + overfull and underfull lines
 
 
+
+We start with some variables we use throughout.
+These are the XML, bibliography, TeX  and TeX log file:
 ```r
 xmlFile = "~/Book/book.xml"
 xbibFile = "~/Book/Bibliography.xml"
 texFile = "~/Book/book.tex"
 logFile = "~/Book/book.log"
 ```
-
 
 # Generating XML Content
 
@@ -38,6 +38,11 @@ dbtable(obj)
 ```
 You can put the output into the XML file.
 
+
+## Creating an XML Bibliography Entry
+
+`makePkgBiblioEntry()` creates a bibliography entry for an R package,
+integrating the information from the package's DESCRIPTION/`.packageDescription()`.
 
 
 # Analyzing the XML Documents
@@ -77,12 +82,54 @@ substring(deps, nchar(prefix) + 1)
 We add 1 this time as getCommonPrefix identifies the / as part of the prefix.
 
 
+## Missing Section Titles
+
+```r
+ti = missingTitles(xmlFile)
+length(ti) # hopefully none.
+nodeLocationsDF(ti)
+```
+
+## Table and Figure Titles and Captions
+
+```r
+checkTableFigureTitlesCaptions(xmlFile)
+```
+This returns a data.frame with the locations and the element names
+of those tables or figures that are missing a caption or title or both.
+
+
+## Finding duplicate @id attributes
+
+```r
+dupIDs(xmlFile)
+```
+The result is a data.frame with file and line number information and the id value.
+
+## Finding instances of e.g. and i.e. that need a preceding ,
+```
+w = findEgIe(xmlFile)
+```
+
+
 ## Finding erroneous xml:attr nodes
 
 ```r
 emptyXMLAttr(xmlFile)
 ```
 
+## Find - which should be en-dash or em-dash
+
+```
+dash = findDash(xmlFile)
+```
+This returns a data.frame of node locations (file and line number.)
+
+## Finding 1st, 2nd, 3rd, ... in text
+
+```r
+findNumbers(xmlFile)
+```
 
 
 ## Get all Packages, Classes or Function Names
@@ -160,11 +207,14 @@ This returns a data.frame with the word and the name of the file  and the line n
 
 ## Find Empty Sections
 
-A section can be empty because it has no paragraphs or because the paragraphs are empty.
-`findEmptySections` finds these
+Sometimes we create a section and give it a title but don't delay adding  any content.
+`findEmptySections` finds these sections:
 ```
 esecs = findEmptySections(xmlFile)
 ```
+returning a data.frame of locations and the title.
+
+
 
 ## Spell-checking XML Content
 
@@ -207,13 +257,37 @@ q  = getQuestions(xmlFile)
 ```
 
 
-## Check r:code/r:function nodes that don't parse correctly
+## Check r:code/r:function/r:expr nodes that don't parse correctly
 
 ```r
 k = checkDocCode(xmlFile)
 ```
+Again, we get a data.frame with the locations of the problematic nodes and 
+the code.
+
+## Missing or incorrect xref linkend attbitues
+
+```r
+badXRefs(xmlFile)
+```
+
+## Get &lt;fix&gt;/&lt;fixme&gt; nodes
+
+```r
+fix = getFixmes
+```
+A data.frame of locations and the text of the fixme.
 
 
+## Check RCurl options
+This checks the text (not the code) for markup identifying RCurl options
+and then checks they are valid options (and not misspelled)
+```r
+rcopts = checkCurlOpts(xmlFile)
+if(is.data.frame(rcopts))
+  rcopts
+```
+Returns either TRUE or a data.frame of locations for the problematics RCurl "options".
 
 # LaTeX
 
